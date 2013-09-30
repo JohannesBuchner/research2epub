@@ -8,13 +8,9 @@ Author: Johannes Buchner (C) 2013
 """
 
 import sys, os
-import numpy
-from numpy import log, exp, log10, logical_and, logical_or
 from PIL import Image
-import joblib
 import json
 from math import floor, ceil
-
 
 #info = json.load(open(sys.argv[2]))
 from PyPDF2 import PdfFileWriter, PdfFileReader

@@ -10,7 +10,6 @@ import sys, os
 import numpy
 from numpy import log, exp, log10, logical_and, logical_or
 from PIL import Image
-import joblib
 import json
 
 
@@ -27,10 +26,6 @@ shape = None
 outfile = sys.argv[1]
 infiles = sys.argv[2:]
 
-cachedir = outfile + '.cache'
-if not os.path.isdir(cachedir): os.mkdir(cachedir)
-mem = joblib.Memory(cachedir=cachedir, verbose=False)
-
 for f in infiles:
 	im = Image.open(f).convert('L')#.resize((612, 792))
 	print im.size
@@ -44,6 +39,12 @@ for f in infiles:
 	#print b.shape, b
 	size = b.size
 	pages.append(b)
+"""
+import joblib
+
+cachedir = outfile + '.cache'
+if not os.path.isdir(cachedir): os.mkdir(cachedir)
+mem = joblib.Memory(cachedir=cachedir, verbose=False)
 
 this_run = dict(infiles=infiles, shape=list(shape))
 try:
@@ -58,7 +59,7 @@ except IOError:
 	mem.clear()
 json.dump(this_run, file(cachedir + '/last_run.json', 'w'), indent=4)
 
-cache = mem.cache
+cache = mem.cache"""
 cache = lambda x: x
 # compute overlap / similarities among pages
 @cache
