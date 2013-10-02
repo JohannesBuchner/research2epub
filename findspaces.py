@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 """
-Analyses input png pages for their structure, and writes out a json file
-SYNAPSIS: findspaces.py <outfile.json> <infile1.png> ...
+Analyses input png pages for their structure, and writes out a json file 
+describing the found segments.
+
+SYNAPSIS: findspaces.py <segmentsoutfile.json> <infile1.png> ...
 
 Author: Johannes Buchner (C) 2013
 """
