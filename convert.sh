@@ -8,29 +8,20 @@
 infile=$1
 
 outfile=${infile/.pdf/.epub}
+outpdf=${infile/.pdf/.epub}
 outhtml=${infile/.pdf/}
 mkdir -p "${outhtml}"
 
-rm -f "${outhtml}/"out_*
+rm -f "${outhtml}/"out-*
 rm -f "${outhtml}/"segment*
 
-convert -units PixelsPerInch -density 200 "$infile" "${outhtml}/out_%04d.png"
+pdftocairo -png -r 200 "$infile" "${outhtml}/out"
 
-j=0
-for i in "${outhtml}/"out_*.png; do 
-	echo $i
-	convert $i -background white -flatten -alpha off $i &
-	((j++))
-	if [ $j == 3 ]; then
-		wait
-		j=0
-	fi
-done
-wait
-
-python findspaces.py "${outhtml}"/segments.json "${outhtml}/"out_*.png || exit 1
+python findspaces.py "${outhtml}"/segments.json "${outhtml}/"out-*.png || exit 1
 
 python rewrite.py "${outhtml}"/segments.json "$infile" "${outhtml}" || exit 1
+
+python rewritepdf.py "${outhtml}"/segments.json "$infile" "${outpdf}"
 
 #cp -r segments.html segment_*.png "${outhtml}"
 

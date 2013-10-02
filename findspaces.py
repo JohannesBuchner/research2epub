@@ -443,8 +443,15 @@ for i, sub_segments in enumerate(pages_sub_segments):
 
 print 'writing output...'
 j = 0
-json.dump(dict(segments=pages_sub_segments, shape=shape, files=infiles), 
+margins = dict(zip('left,right,top,bottom,split,splitwidth,odd'.split(','),
+	[v * 1. / shape[0] for v in [l, r, mid, bw, 0]]))
+margins.update(zip('top,bottom'.split(','),
+	[v * 1. / shape[1] for v in [t, b]]))
+json.dump(margins, file(outfile.replace('.json', '_margins.json'), 'w'), 
+	indent=4)
+json.dump(dict(segments=pages_sub_segments, shape=shape, files=infiles),
 	file(outfile, 'w'), indent=4)
+
 
 for i, (f, p, segments0, segments) in enumerate(zip(infiles, pages, segments_pages, pages_sub_segments)):
 	im = Image.open(f) # resize((240/2, 316/2)).

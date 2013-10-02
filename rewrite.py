@@ -15,9 +15,9 @@ from math import floor, ceil
 #info = json.load(open(sys.argv[2]))
 from PyPDF2 import PdfFileWriter, PdfFileReader
 origfile = PdfFileReader(open(sys.argv[2], 'rb'))
-info = dict(author=origfile.documentInfo['/Author'],
-	title=origfile.documentInfo['/Title'],
-	date=origfile.documentInfo['/CreationDate'])
+info = dict(author=origfile.documentInfo.get('/Author', ''),
+	title=origfile.documentInfo.get('/Title', ''),
+	date=origfile.documentInfo.get('/CreationDate', ''))
 if len(info['title']) == 0:
 	info['title'] = os.path.basename(sys.argv[2]).replace('.pdf', '')
 
